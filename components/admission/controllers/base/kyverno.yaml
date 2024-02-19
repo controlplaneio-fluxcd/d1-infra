@@ -1,0 +1,37 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: kyverno
+spec:
+  interval: 12h
+  type: oci
+  url: oci://ghcr.io/kyverno/charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: kyverno
+spec:
+  serviceAccountName: flux
+  interval: 1h
+  chart:
+    spec:
+      version: "3.1.3" # {"$imagepolicy": "flux-system:kyverno:tag"}
+      chart: kyverno
+      sourceRef:
+        kind: HelmRepository
+        name: kyverno
+      interval: 12h
+  install:
+    crds: Create
+    timeout: 9m
+  upgrade:
+    crds: CreateReplace
+    timeout: 9m
+  values:
+    admissionController:
+      serviceMonitor:
+        enabled: true
+    backgroundController:
+      serviceMonitor:
+        enabled: true
