@@ -5,6 +5,7 @@ metadata:
   name: monitoring-controllers
   namespace: flux-system
 spec:
+  serviceAccountName: flux-infra
   interval: 1h
   retryInterval: 2m
   timeout: 10m
@@ -21,6 +22,7 @@ metadata:
   name: monitoring-configs
   namespace: flux-system
 spec:
+  serviceAccountName: flux-infra
   dependsOn:
     - name: monitoring-controllers
   interval: 1h
