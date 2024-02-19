@@ -26,7 +26,7 @@ metadata:
 spec:
   serviceAccountName: flux-infra
   dependsOn:
-    - name: monitoring-controllers
+    - name: admission-controllers
   interval: 1h
   retryInterval: 2m
   timeout: 5m

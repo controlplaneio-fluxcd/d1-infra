@@ -2,6 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: kyverno
+  namespace: kyverno
 spec:
   interval: 12h
   type: oci
@@ -11,6 +12,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: kyverno
+  namespace: kyverno
 spec:
   serviceAccountName: flux
   interval: 1h
