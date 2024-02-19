@@ -22,7 +22,7 @@ This repository contains the following top directories:
 
 - **components** dir contains Flux HelmReleases for cluster addons with custom configuration per environment
 - **deploy** dir contains the Flux configuration referred from the `d1-fleet` repo for reconciling the components in a specific order
-- **automation** dir contains the Flux configuration for automating the OCI chart updates of the Helm releases
+- **update** dir contains the Flux configuration for automating the OCI chart updates of the Helm releases
 
 A cluster component is defined in a directory with the following structure:
 
@@ -104,14 +104,13 @@ sequenceDiagram
     participant sc as Flux<br><br>source-controller
     participant hc as Flux<br><br>helm-controller
     participant kube as Kubernetes<br><br>api-server
-    sc->>git: 1. helm pull chart
-    sc->>sc: 2. build chart for revision
-    sc->>kube: 3. update chart status
-    kube->>hc: 4. notify about new revision
-    hc->>sc: 5. fetch chart
-    hc->>kube: 6. get release values
-    hc->>hc: 7. upgrade release
-    hc-->>kube: 8. run tests
-    hc-->>kube: 9. wait for readiness
-    hc->>kube: 10. update status
+    sc->>git: 1. pull new chart version
+    sc->>kube: 2. update chart status
+    kube->>hc: 3. notify about new version
+    hc->>sc: 4. fetch chart
+    hc->>kube: 5. get release values
+    hc->>hc: 6. upgrade release
+    hc-->>kube: 7. run tests
+    hc->>kube: 8. wait for readiness
+    hc->>kube: 9. update status
 ```
