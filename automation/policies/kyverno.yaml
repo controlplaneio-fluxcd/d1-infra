@@ -1,0 +1,22 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: kyverno
+  namespace: flux-system
+spec:
+  image: "ghcr.io/kyverno/charts/kyverno"
+  interval: 1h
+  provider: generic
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: kyverno
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: kyverno
+  policy:
+    semver:
+      range: ">=3.0.0"
