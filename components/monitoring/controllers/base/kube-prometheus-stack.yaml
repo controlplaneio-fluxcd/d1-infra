@@ -1,4 +1,3 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
@@ -17,7 +16,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      version: "55.x" # {"$imagepolicy": "flux-system:kube-prometheus-stack:tag"}
+      version: "56.8.0" # {"$imagepolicy": "flux-system:kube-prometheus-stack:tag"}
       chart: kube-prometheus-stack
       sourceRef:
         kind: HelmRepository
@@ -33,7 +32,7 @@ spec:
     mode: enabled
     ignore:
       # Ignore "validated" annotation which is not inserted during install
-      - paths: [ "/metadata/annotations/prometheus-operator-validated" ]
+      - paths: ["/metadata/annotations/prometheus-operator-validated"]
         target:
           kind: PrometheusRule
   valuesFrom:
@@ -51,7 +50,7 @@ spec:
           requests:
             cpu: 200m
             memory: 200Mi
-        podMonitorNamespaceSelector: { }
+        podMonitorNamespaceSelector: {}
         podMonitorSelector:
           matchLabels:
             app.kubernetes.io/component: monitoring
