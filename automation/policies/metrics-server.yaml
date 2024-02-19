@@ -1,0 +1,22 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: metrics-server
+  namespace: flux-system
+spec:
+  image: "registry-1.docker.io/bitnamicharts/metrics-server"
+  interval: 1h
+  provider: generic
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: metrics-server
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: metrics-server
+  policy:
+    semver:
+      range: ">=6.0.0"
