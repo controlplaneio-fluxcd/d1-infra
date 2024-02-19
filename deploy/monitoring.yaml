@@ -13,7 +13,7 @@ spec:
   wait: true
   sourceRef:
     kind: GitRepository
-    name: infra
+    name: flux-infra
   path: components/monitoring/controllers/${environment:=staging}
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -32,5 +32,5 @@ spec:
   wait: true
   sourceRef:
     kind: GitRepository
-    name: infra
+    name: flux-infra
   path: components/monitoring/configs/${environment:=staging}
