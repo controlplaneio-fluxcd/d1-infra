@@ -1,5 +1,7 @@
 # d1-infra
 
+[![vet](https://github.com/controlplaneio-fluxcd/d1-infra/actions/workflows/vet.yaml/badge.svg)](https://github.com/controlplaneio-fluxcd/d1-infra/actions/workflows/vet.yaml)
+
 This repository is managed by the platform team who are responsible for
 the Kubernetes infrastructure. 
 
