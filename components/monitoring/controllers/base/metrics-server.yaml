@@ -24,5 +24,5 @@ spec:
       interval: 12h
   # https://artifacthub.io/packages/helm/bitnami/metrics-server
   values:
-    args:
+    extraArgs:
       - --kubelet-insecure-tls
