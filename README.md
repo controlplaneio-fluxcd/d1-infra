@@ -38,7 +38,12 @@ component/
     └── staging # staging specific values
 ```
 
-## Deployment Strategy
+## Deployment Workflow
+
+To prevent reconciliation errors due to malformed YAML manifests or invalid Kubernetes definitions,
+changes to the `main` branch should be made through pull requests. Changes to the manifests are
+vetted in CI for each pull request using a GitHub Action that downloads the Flux OpenAPI schemas,
+and validates the custom resources and the kustomize overlays using `kubeconform`.
 
 Changes to the `main` branch are automatically reconciled by Flux on the staging cluster.
 
@@ -109,7 +114,7 @@ sequenceDiagram
     kube->>hc: 3. notify about new version
     hc->>sc: 4. fetch chart
     hc->>kube: 5. get release values
-    hc->>hc: 6. upgrade release
+    hc->>kube: 6. upgrade release
     hc-->>kube: 7. run tests
     hc->>kube: 8. wait for readiness
     hc->>kube: 9. update status
