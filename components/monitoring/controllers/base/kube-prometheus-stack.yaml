@@ -22,11 +22,13 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
-      interval: 1h
+      interval: 12h
   install:
     crds: Create
+    timeout: 9m
   upgrade:
     crds: CreateReplace
+    timeout: 9m
   driftDetection:
     mode: enabled
     ignore:
