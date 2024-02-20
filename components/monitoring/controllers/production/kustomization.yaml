@@ -10,3 +10,13 @@ patches:
     target:
         kind: HelmRelease
         name: kube-prometheus-stack
+# Remove subcomponent based on environment
+#  - patch: |
+#      $patch: delete
+#      apiVersion: helm.toolkit.fluxcd.io/v2beta2
+#      kind: HelmRelease
+#      metadata:
+#        name: metrics-server
+#    target:
+#      kind: HelmRelease
+#      name: metrics-server
