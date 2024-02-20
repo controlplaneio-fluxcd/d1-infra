@@ -20,11 +20,14 @@ Access to this repository is restricted to the platform team and the
 
 ## Repository Structure
 
-This repository contains the following top directories:
+This repository contains the following directories:
 
-- **components** dir contains Flux HelmReleases for cluster addons with custom configuration per environment
-- **deploy** dir contains the Flux configuration referred from the `d1-fleet` repo for reconciling the components in a specific order
-- **update** dir contains the Flux configuration for automating the OCI chart updates of the Helm releases
+- The **components** dir contains Flux HelmReleases for cluster addons with custom
+  configuration per environment.
+- The **deploy** dir contains the Flux configuration referred from the `d1-fleet` repo
+  for reconciling the components in a specific order.
+- The **update** dir contains the Flux configuration for automating the OCI chart updates
+  of the Helm releases.
 
 A cluster component is defined in a directory with the following structure:
 
@@ -40,12 +43,15 @@ component/
     └── staging # staging specific values
 ```
 
-## Deployment Workflow
+The CRDs and their controllers are reconciled before the custom resources to ensure that the
+controllers are ready to process the custom resources.
+
+## Continuous Delivery
 
 To prevent reconciliation errors due to malformed YAML manifests or invalid Kubernetes definitions,
-changes to the `main` branch should be made through pull requests. Changes to the manifests are
-vetted in CI for each pull request using a GitHub Action that downloads the Flux OpenAPI schemas,
-and validates the custom resources and the kustomize overlays using `kubeconform`.
+changes to the `main` branch should be made through pull requests. On pull requests a GitHub Action
+runs that downloads the Flux OpenAPI schemas, and validates the custom resources and the kustomize
+overlays using `kubeconform`.
 
 Changes to the `main` branch are automatically reconciled by Flux on the staging cluster.
 
@@ -72,8 +78,8 @@ sequenceDiagram
     nc-->>me: 13. send alerts for revision
 ```
 
-After the changes are validated, the platform team can promote the changes to the production clusters
-by merging the `main` branch into the `production` branch.
+After the changes are reconciled on staging, the platform team can promote the changes
+to the production clusters by merging the `main` branch into the `production` branch.
 
 ## Helm Release Automation
 
@@ -85,21 +91,19 @@ Flux will update the HelmRelease YAML definitions and will push the changes to t
 
 ```mermaid
 sequenceDiagram
-    actor me
     participant oci as OCI<br><br>repository
     participant irc as Flux<br><br>image-reflector-controller
     participant iac as Flux<br><br>image-automation-controller
     participant kube as Kubernetes<br><br>api-server
     participant git as Git<br><br>repository
-    me->>oci: 1. helm push oci://chart:version
-    irc->>oci: 2. list versions
-    irc->>irc: 3. match versions to policy
-    irc->>kube: 4. update status
-    kube->>iac: 5. notify about new version
-    iac->>git: 6. git checkout main
-    iac->>iac: 7. patch HelmRelease with new chart version
-    iac->>git: 8. git push origin main
-    iac->>kube: 9. update status
+    irc->>oci: 1. list chart versions
+    irc->>irc: 2. match versions to policy
+    irc->>kube: 3. update status
+    kube->>iac: 4. notify about new version
+    iac->>git: 5. git checkout main
+    iac->>iac: 6. patch HelmRelease with new chart version
+    iac->>git: 7. git push origin main
+    iac->>kube: 8. update status
 ```
 
 After the changes are pushed to the `main` branch, the HelmReleases will be upgraded to the new
