@@ -2,21 +2,19 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: kyverno
-  namespace: flux-system
+  name: metrics-server
 spec:
-  image: "ghcr.io/kyverno/charts/kyverno"
+  image: "registry-1.docker.io/bitnamicharts/metrics-server"
   interval: 1h
   provider: generic
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name: kyverno
-  namespace: flux-system
+  name: metrics-server
 spec:
   imageRepositoryRef:
-    name: kyverno
+    name: metrics-server
   policy:
     semver:
-      range: ">=3.0.0"
+      range: ">=6.0.0"

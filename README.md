@@ -24,8 +24,6 @@ This repository contains the following directories:
 
 - The **components** dir contains Flux HelmReleases for cluster addons with custom
   configuration per environment.
-- The **deploy** dir contains the Flux configuration referred from the `d1-fleet` repo
-  for reconciling the components in a specific order.
 - The **update** dir contains the Flux configuration for automating the OCI chart updates
   of the Helm releases.
 

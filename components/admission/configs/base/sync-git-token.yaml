@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: sync-git-token
+spec:
+  mutateExistingOnPolicyUpdate: true
+  rules:
+    - name: copy-token-from-password
+      match:
+        any:
+          - resources:
+              kinds:
+                - Secret
+              names:
+                - flux-system
+              namespaces:
+                - flux-system
+      mutate:
+        targets:
+          - apiVersion: v1
+            kind: Secret
+            name: flux-system
+            namespace: flux-system
+        patchesJson6902: |-
+          - op: add
+            path: "/data/token"
+            value: "{{ request.object.data.password }}" 

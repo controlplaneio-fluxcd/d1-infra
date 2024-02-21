@@ -1,0 +1,29 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: sync-flux-configmaps
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: "Enabled"
+spec:
+  validationFailureAction: Enforce
+  background: false
+  generateExisting: true
+  rules:
+    # This rule ensures that all namespaces
+    # have a copy of the flux-runtime-info configmap from the flux-system namespace.
+    - name: sync-configmaps
+      match:
+        any:
+          - resources:
+              kinds:
+                - v1/Namespace
+      generate:
+        namespace: "{{request.object.metadata.name}}"
+        synchronize: true
+        cloneList:
+          namespace: flux-system
+          kinds:
+            - v1/ConfigMap
+          selector:
+            matchLabels:
+              toolkit.fluxcd.io/runtime: "true"
