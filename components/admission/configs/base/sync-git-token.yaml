@@ -10,11 +10,10 @@ spec:
         any:
           - resources:
               kinds:
-                - Secret
-              names:
-                - flux-system
-              namespaces:
-                - flux-system
+                - v1/Namespace
+              selector:
+                matchLabels:
+                  toolkit.fluxcd.io/tenant: "apps"
       mutate:
         targets:
           - apiVersion: v1
