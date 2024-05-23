@@ -18,7 +18,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      version: "3.2.2" # {"$imagepolicy": "flux-system:kyverno:tag"}
+      version: "3.2.3" # {"$imagepolicy": "flux-system:kyverno:tag"}
       chart: kyverno
       sourceRef:
         kind: HelmRepository
