@@ -16,7 +16,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      version: "7.2.8" # {"$imagepolicy": "flux-system:metrics-server:tag"}
+      version: "7.2.9" # {"$imagepolicy": "flux-system:metrics-server:tag"}
       chart: metrics-server
       sourceRef:
         kind: HelmRepository
