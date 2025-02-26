@@ -34,6 +34,18 @@ spec:
     admissionController:
       serviceMonitor:
         enabled: true
+      rbac:
+        clusterRole:
+          extraResources:
+          - apiGroups: [""]
+            resources: [secrets]
+            verbs: [get, list]
     backgroundController:
       serviceMonitor:
         enabled: true
+      rbac:
+        clusterRole:
+          extraResources:
+          - apiGroups: [""]
+            resources: [secrets]
+            verbs: [get, create, update, delete]
