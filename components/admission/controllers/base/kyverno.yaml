@@ -48,4 +48,4 @@ spec:
           extraResources:
           - apiGroups: [""]
             resources: [secrets]
-            verbs: [get, create, update, delete]
+            verbs: [get, list, create, update, delete]
