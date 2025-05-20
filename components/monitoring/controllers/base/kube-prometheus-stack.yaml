@@ -16,7 +16,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      version: "72.5.0" # {"$imagepolicy": "flux-system:kube-prometheus-stack:tag"}
+      version: "72.5.1" # {"$imagepolicy": "flux-system:kube-prometheus-stack:tag"}
       chart: kube-prometheus-stack
       sourceRef:
         kind: HelmRepository
