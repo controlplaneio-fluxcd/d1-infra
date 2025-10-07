@@ -4,8 +4,8 @@ kind: ImageRepository
 metadata:
   name: metrics-server
 spec:
-  image: "registry-1.docker.io/bitnamicharts/metrics-server"
-  interval: 1h
+  image: "ghcr.io/controlplaneio-fluxcd/charts/metrics-server"
+  interval: 12h
   provider: generic
 ---
 apiVersion: image.toolkit.fluxcd.io/v1
@@ -17,4 +17,4 @@ spec:
     name: metrics-server
   policy:
     semver:
-      range: ">=6.0.0"
+      range: ">=3.0.0"
