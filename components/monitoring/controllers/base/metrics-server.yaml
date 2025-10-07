@@ -1,11 +1,15 @@
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+kind: OCIRepository
 metadata:
   name: metrics-server
 spec:
-  interval: 12h
-  type: oci
-  url: oci://registry-1.docker.io/bitnamicharts
+  interval: 1h
+  url: oci://ghcr.io/controlplaneio-fluxcd/charts/metrics-server
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy
+  ref:
+    tag: "3.13.0" # {"$imagepolicy": "flux-system:metrics-server:tag"}
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -14,15 +18,10 @@ metadata:
 spec:
   serviceAccountName: flux
   interval: 1h
-  chart:
-    spec:
-      version: "7.4.12" # {"$imagepolicy": "flux-system:metrics-server:tag"}
-      chart: metrics-server
-      sourceRef:
-        kind: HelmRepository
-        name: metrics-server
-      interval: 12h
-  # https://artifacthub.io/packages/helm/bitnami/metrics-server
+  chartRef:
+    kind: OCIRepository
+    name: metrics-server
+  # https://github.com/kubernetes-sigs/metrics-server/blob/master/charts/metrics-server/values.yaml
   values:
-    extraArgs:
+    args:
       - --kubelet-insecure-tls
